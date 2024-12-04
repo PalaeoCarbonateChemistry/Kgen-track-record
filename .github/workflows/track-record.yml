@@ -15,10 +15,10 @@
             python-version: ['3.13']
         name: Track record
         steps:
+          - uses: actions/checkout@v2
           - name: "Get Kgen"
             run: |
               git clone https://github.com/PalaeoCarbonateChemistry/Kgen/
-          - uses: actions/checkout@v2
           - name: "Set Up Python"
             uses: actions/setup-python@v2
             with:
