@@ -27,9 +27,6 @@
             run: |
               python3 -m venv .environment
               source .environment/bin/activate
-              ls -a
-              ls -a ./Kgen
-              ls -a ./Kgen/python
           - name: "Install Dependencies"
             run: |
               pip install -r requirements.txt
@@ -40,7 +37,7 @@
             uses: exuanbo/actions-deploy-gist@v1
             with:
                 token: ${{ secrets.KGEN_TRACK_RECORD_GIST_KEY }}
-                gist_id: c68eb447f90f281a543bca7ab1d7a56a
+                gist_id: b93ca9f1a9e1702b4cfe3bf64a9be9d3
                 file_path: kgen_track_record.json
                 file_type: text
           - name: Artifact
