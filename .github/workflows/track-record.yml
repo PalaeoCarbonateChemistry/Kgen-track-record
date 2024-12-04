@@ -1,0 +1,46 @@
+---
+    name: 'Generate track record'
+    on: 
+      pull_request:
+      workflow_dispatch:
+      repository_dispatch:
+        types: [new-release]
+    jobs:
+      generate:
+        permissions:
+          contents: write
+        runs-on: ubuntu-latest
+        strategy:
+          matrix:
+            python-version: ['3.13']
+        name: Track record
+        steps:
+          - name: "Get Kgen"
+            run: |
+              git clone https://github.com/PalaeoCarbonateChemistry/Kgen/
+          - uses: actions/checkout@v2
+          - name: "Set Up Python"
+            uses: actions/setup-python@v2
+            with:
+              python-version: ${{ matrix.python-version }}
+          - name: "Install Dependencies"
+            run: |
+              cd python
+              python3 -m pip install -r requirements.txt
+          - name: 'Run generate track record'
+            run: |
+              python3 ./generate_track_record.py
+          - name: Gist
+            uses: exuanbo/actions-deploy-gist@v1
+            with:
+                token: ${{ secrets.KGEN_TRACK_RECORD_GIST_KEY }}
+                gist_id: c68eb447f90f281a543bca7ab1d7a56a
+                file_path: kgen_track_record.json
+                file_type: text
+          - name: Artifact
+            uses: actions/upload-artifact@v4
+            with:
+              name: track_record
+              path: track_record.png
+              overwrite: true
+    
